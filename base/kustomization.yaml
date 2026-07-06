@@ -4,3 +4,4 @@ resources:
   - namespaces.yaml
   - operator.yaml
   - collector.yaml
+  - monitoring.yaml

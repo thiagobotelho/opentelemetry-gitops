@@ -10,6 +10,11 @@ metadata:
 spec:
   mode: deployment
   replicas: 1
+  ports:
+    - name: spanmetrics
+      port: 8889
+      targetPort: 8889
+      protocol: TCP
   resources:
     requests:
       cpu: 100m
@@ -33,6 +38,11 @@ spec:
       batch:
         send_batch_size: 1024
         timeout: 5s
+    connectors:
+      spanmetrics:
+        histogram:
+          explicit:
+            buckets: [5ms, 10ms, 25ms, 50ms, 100ms, 250ms, 500ms, 1s, 2.5s, 5s, 10s]
     exporters:
       otlp/tempo:
         endpoint: tempo-tempo-monolithic.openshift-tempo-operator.svc:4317
@@ -40,12 +50,18 @@ spec:
           insecure: true
       debug:
         verbosity: basic
+      prometheus:
+        endpoint: 0.0.0.0:8889
     service:
       pipelines:
         traces:
           receivers: [otlp]
           processors: [memory_limiter, batch]
-          exporters: [otlp/tempo]
+          exporters: [otlp/tempo, spanmetrics]
+        metrics:
+          receivers: [spanmetrics]
+          processors: [memory_limiter, batch]
+          exporters: [prometheus]
       telemetry:
         metrics:
-          address: 0.0.0.0:8888
+          level: basic
