@@ -39,12 +39,12 @@ spec:
         send_batch_size: 1024
         timeout: 5s
     connectors:
-      spanmetrics:
+      span_metrics:
         histogram:
           explicit:
             buckets: [5ms, 10ms, 25ms, 50ms, 100ms, 250ms, 500ms, 1s, 2.5s, 5s, 10s]
     exporters:
-      otlp/tempo:
+      otlp_grpc/tempo:
         endpoint: tempo-tempo-monolithic.openshift-tempo-operator.svc:4317
         tls:
           insecure: true
@@ -57,9 +57,9 @@ spec:
         traces:
           receivers: [otlp]
           processors: [memory_limiter, batch]
-          exporters: [otlp/tempo, spanmetrics]
+          exporters: [otlp_grpc/tempo, span_metrics]
         metrics:
-          receivers: [spanmetrics]
+          receivers: [span_metrics]
           processors: [memory_limiter, batch]
           exporters: [prometheus]
       telemetry:
