@@ -45,7 +45,7 @@ spec:
             buckets: [5ms, 10ms, 25ms, 50ms, 100ms, 250ms, 500ms, 1s, 2.5s, 5s, 10s]
     exporters:
       otlp_grpc/tempo:
-        endpoint: tempo-tempo-monolithic.openshift-tempo-operator.svc:4317
+        endpoint: tempo-tempo-monolithic-gateway.tempo.svc.cluster.local:4317
         tls:
           insecure: true
       debug:
