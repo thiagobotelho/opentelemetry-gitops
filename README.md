@@ -16,6 +16,33 @@ http://otel-collector-collector.observability.svc:4318
 
 Referência: documentação Red Hat build of OpenTelemetry do OpenShift 4.20.
 
+
+## Arquitetura
+
+```mermaid
+flowchart LR
+    App[Aplicações] -->|OTLP gRPC/HTTP| Collector[OpenTelemetry Collector]
+    Collector -->|traces| Tempo[Tempo]
+    Collector -->|span metrics RED| Prom[Prometheus]
+    Grafana[Grafana] --> Prom
+    Grafana --> Tempo
+```
+
+O Collector centraliza ingestão OTLP, aplica `memory_limiter` e `batch`, envia
+traces ao Tempo e publica métricas RED via `span_metrics` para Prometheus. No
+CRC validado, o Red Hat OpenTelemetry Collector 0.152.1 suporta
+`span_metrics`, mas não lista connector `servicegraph`; por isso o repositório
+não tenta habilitar Service Graph no Collector. Essa parte deve ser feita com
+Tempo metrics-generator, Grafana Alloy ou uma imagem de Collector que exponha o
+connector apropriado.
+
+Valide os componentes disponíveis no cluster com:
+
+```bash
+oc -n observability exec deploy/otel-collector-collector -- \
+  /usr/bin/opentelemetry-collector components
+```
+
 ## Ambientes e validação
 
 ```bash
@@ -29,10 +56,3 @@ O exporter Tempo aponta para
 `tempo-tempo-monolithic-gateway.tempo.svc.cluster.local:4317`. Ajuste por
 overlay se o namespace/nome do Tempo mudar. Mais detalhes em
 `docs/AMBIENTES.md`.
-
-## Automatizações preservadas e ajustadas
-
-- `.github/workflows/validate.yml` foi preservado e ajustado para renderizar
-  todos os Kustomizations, não apenas `overlays/crc`.
-- O overlay legado `overlays/crc` permanece como compatibilidade; use
-  `overlays/desenvolvimento` como padrão.

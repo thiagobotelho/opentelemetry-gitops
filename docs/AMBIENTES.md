@@ -20,7 +20,7 @@ Integrações:
 - Receivers OTLP gRPC/HTTP em `4317/4318`.
 - Exporter OTLP gRPC para `tempo-tempo-monolithic-gateway.tempo.svc.cluster.local:4317`.
 - Connector `span_metrics` expõe métricas RED em `8889` para Prometheus.
-
-Automação preservada:
-
-- `.github/workflows/validate.yml`: agora renderiza todos os Kustomizations e executa `yamllint`.
+- Service Graph não é habilitado no Collector porque a imagem Red Hat 0.152.1
+  validada no CRC não inclui connector `servicegraph`; use Tempo
+  metrics-generator/Grafana Alloy se precisar das métricas
+  `traces_service_graph_*`.
