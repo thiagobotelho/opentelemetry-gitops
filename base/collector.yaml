@@ -46,13 +46,20 @@ spec:
     exporters:
       otlp_grpc/tempo:
         endpoint: tempo-tempo-monolithic-gateway.tempo.svc.cluster.local:4317
+        auth:
+          authenticator: bearertokenauth/tempo
+        headers:
+          x-scope-orgid: dev
         tls:
-          insecure: true
+          insecure: false
+          insecure_skip_verify: true
       debug:
         verbosity: basic
       prometheus:
         endpoint: 0.0.0.0:8889
     service:
+      extensions:
+        - bearertokenauth/tempo
       pipelines:
         traces:
           receivers: [otlp]
