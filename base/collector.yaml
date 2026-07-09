@@ -58,8 +58,9 @@ spec:
       prometheus:
         endpoint: 0.0.0.0:8889
     service:
-      extensions:
-        - bearertokenauth/tempo
+     extensions:
+      bearertokenauth/tempo:
+        filename: /var/run/secrets/kubernetes.io/serviceaccount/token
       pipelines:
         traces:
           receivers: [otlp]
