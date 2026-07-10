@@ -19,7 +19,10 @@ Integrações:
 
 - Receivers OTLP gRPC/HTTP em `4317/4318`.
 - Exporter OTLP gRPC para `tempo-tempo-monolithic-gateway.tempo.svc.cluster.local:4317`.
-- Connector `span_metrics` expõe métricas RED em `8889` para Prometheus.
+- Connector `span_metrics` expõe métricas RED em `8889` para Prometheus Apps.
+- Namespace e `ServiceMonitor` usam labels `observability=enabled` e
+  `observability=platform`, respectivamente, para seleção pelo
+  `MonitoringStack apps-monitoring`.
 - Service Graph não é habilitado no Collector porque a imagem Red Hat 0.152.1
   validada no CRC não inclui connector `servicegraph`; use Tempo
   metrics-generator/Grafana Alloy se precisar das métricas

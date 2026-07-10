@@ -11,3 +11,5 @@ metadata:
   name: observability
   annotations:
     argocd.argoproj.io/sync-wave: "0"
+  labels:
+    observability: enabled
