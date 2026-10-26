@@ -52,7 +52,9 @@ spec:
           x-scope-orgid: dev
         tls:
           insecure: false
-          insecure_skip_verify: true
+          insecure_skip_verify: false
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
+          server_name_override: tempo-tempo-monolithic-gateway.tempo.svc
       debug:
         verbosity: basic
       prometheus:
