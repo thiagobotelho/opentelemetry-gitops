@@ -65,3 +65,9 @@ O exporter Tempo aponta para
 `tempo-tempo-monolithic-gateway.tempo.svc.cluster.local:4317`. Ajuste por
 overlay se o namespace/nome do Tempo mudar. Mais detalhes em
 `docs/AMBIENTES.md`.
+
+## Tracing opcional do Service Mesh
+
+O módulo optional/tracing de [service-mesh-gitops](https://github.com/thiagobotelho/service-mesh-gitops) pode usar o Collector existente via serviço `otel-collector-collector.observability.svc.cluster.local:4317`. Conferir serviço, endpoints, acesso e configuração da versão instalada antes de ativar. O módulo configura provider OTLP no Istio e Telemetry somente para mesh-lab, com amostragem de estudo.
+
+Esta etapa não muda o exporter TLS do Tempo, RBAC, credenciais ou autenticação. A presença do manifesto não comprova entrega de spans: gerar requisições, capturar um trace ID sanitizado e confirmar o trace no Tempo. Tracing do novo laboratório ainda não executado.
