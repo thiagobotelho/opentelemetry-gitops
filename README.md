@@ -69,3 +69,7 @@ O módulo optional/tracing de [service-mesh-gitops](https://github.com/thiagobot
 
 Esta etapa não muda o exporter TLS do Tempo, RBAC, credenciais ou autenticação. A presença do manifesto não comprova entrega de spans: gerar requisições, capturar um trace ID sanitizado e confirmar o trace no Tempo. Verifique o trace no Tempo após gerar tráfego pelo proxy.
 
+
+## Aprender a configuração
+
+Consulte o [guia comentado](docs/APRENDIZADO.md) para entender componentes, escolhas, testes positivos/negativos e reversão.

@@ -3,18 +3,21 @@ apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
   name: otel-collector
+  # Namespace deste objeto; não confundir com seleção de namespaces de origem.
   namespace: observability
   annotations:
     argocd.argoproj.io/sync-wave: "2"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   mode: deployment
+  # Número de instâncias; réplicas isoladamente não garantem alta disponibilidade.
   replicas: 1
   ports:
     - name: spanmetrics
       port: 8889
       targetPort: 8889
       protocol: TCP
+  # Recursos ou dependências desta seção; avaliar seu escopo antes de alterar.
   resources:
     requests:
       cpu: 100m
@@ -23,6 +26,7 @@ spec:
       cpu: 500m
       memory: 512Mi
   config:
+    # Entradas habilitadas para receber telemetria; limitar exposição de rede.
     receivers:
       otlp:
         protocols:
@@ -30,6 +34,7 @@ spec:
             endpoint: 0.0.0.0:4317
           http:
             endpoint: 0.0.0.0:4318
+    # A ordem de processamento influencia memória, descarte e agrupamento de dados.
     processors:
       memory_limiter:
         check_interval: 1s
@@ -43,6 +48,7 @@ spec:
         histogram:
           explicit:
             buckets: [5ms, 10ms, 25ms, 50ms, 100ms, 250ms, 500ms, 1s, 2.5s, 5s, 10s]
+    # Destinos de saída; conferir identidade, CA e atributos sensíveis antes de enviar.
     exporters:
       otlp_grpc/tempo:
         endpoint: tempo-tempo-monolithic-gateway.tempo.svc.cluster.local:4317
@@ -50,6 +56,7 @@ spec:
           authenticator: bearertokenauth/tempo
         headers:
           x-scope-orgid: dev
+        # TLS define transporte e confiança; não desabilitar validação para contornar erros.
         tls:
           insecure: false
           insecure_skip_verify: false
