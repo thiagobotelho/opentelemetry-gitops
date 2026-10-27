@@ -2,6 +2,7 @@ apiVersion: monitoring.rhobs/v1
 kind: ServiceMonitor
 metadata:
   name: otel-collector-spanmetrics
+  # Namespace deste objeto; não confundir com seleção de namespaces de origem.
   namespace: observability
   annotations:
     argocd.argoproj.io/sync-wave: "3"
@@ -12,6 +13,7 @@ metadata:
     app.kubernetes.io/component: collector
     app.kubernetes.io/part-of: observability
 spec:
+  # Seletores precisam corresponder aos labels dos recursos de destino.
   selector:
     matchLabels:
       app.kubernetes.io/name: otel-collector-collector
