@@ -30,10 +30,7 @@ flowchart LR
 
 O Collector centraliza ingestão OTLP, aplica `memory_limiter` e `batch`, envia
 traces ao Tempo e publica métricas RED via `span_metrics` para o Prometheus Apps
-do repositório `prometheus-gitops`. No CRC validado, o Red Hat OpenTelemetry
-Collector 0.152.1 suporta
-`span_metrics`, mas não lista connector `servicegraph`; por isso o repositório
-não tenta habilitar Service Graph no Collector. Essa parte deve ser feita com
+do repositório `prometheus-gitops`. O pipeline configura `span_metrics`. Confira os componentes disponíveis na imagem do Collector antes de habilitar o connector `servicegraph`. Essa parte deve ser feita com
 Tempo metrics-generator, Grafana Alloy ou uma imagem de Collector que exponha o
 connector apropriado.
 
@@ -70,4 +67,5 @@ overlay se o namespace/nome do Tempo mudar. Mais detalhes em
 
 O módulo optional/tracing de [service-mesh-gitops](https://github.com/thiagobotelho/service-mesh-gitops) pode usar o Collector existente via serviço `otel-collector-collector.observability.svc.cluster.local:4317`. Conferir serviço, endpoints, acesso e configuração da versão instalada antes de ativar. O módulo configura provider OTLP no Istio e Telemetry somente para mesh-lab, com amostragem de estudo.
 
-Esta etapa não muda o exporter TLS do Tempo, RBAC, credenciais ou autenticação. A presença do manifesto não comprova entrega de spans: gerar requisições, capturar um trace ID sanitizado e confirmar o trace no Tempo. Tracing do novo laboratório ainda não executado.
+Esta etapa não muda o exporter TLS do Tempo, RBAC, credenciais ou autenticação. A presença do manifesto não comprova entrega de spans: gerar requisições, capturar um trace ID sanitizado e confirmar o trace no Tempo. Verifique o trace no Tempo após gerar tráfego pelo proxy.
+

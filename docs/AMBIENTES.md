@@ -23,7 +23,7 @@ Integrações:
 - Namespace e `ServiceMonitor` usam labels `observability=enabled` e
   `observability=platform`, respectivamente, para seleção pelo
   `MonitoringStack apps-monitoring`.
-- Service Graph não é habilitado no Collector porque a imagem Red Hat 0.152.1
-  validada no CRC não inclui connector `servicegraph`; use Tempo
+- Antes de habilitar Service Graph, confira o suporte ao connector servicegraph na imagem do Collector; use Tempo
   metrics-generator/Grafana Alloy se precisar das métricas
   `traces_service_graph_*`.
+
