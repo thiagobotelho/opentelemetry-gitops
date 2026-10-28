@@ -2,7 +2,6 @@ apiVersion: monitoring.rhobs/v1
 kind: ServiceMonitor
 metadata:
   name: otel-collector-spanmetrics
-  # Namespace deste objeto; não confundir com seleção de namespaces de origem.
   namespace: observability
   annotations:
     argocd.argoproj.io/sync-wave: "3"
