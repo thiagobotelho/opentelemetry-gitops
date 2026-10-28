@@ -3,7 +3,6 @@ apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
   name: otel-collector
-  # Namespace deste objeto; não confundir com seleção de namespaces de origem.
   namespace: observability
   annotations:
     argocd.argoproj.io/sync-wave: "2"
