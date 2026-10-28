@@ -73,3 +73,9 @@ Esta etapa não muda o exporter TLS do Tempo, RBAC, credenciais ou autenticaçã
 ## Aprender a configuração
 
 Consulte o [guia comentado](docs/APRENDIZADO.md) para entender componentes, escolhas, testes positivos/negativos e reversão.
+
+## Diagnóstico integrado de rede e mesh
+
+Consulte o [guia de observabilidade do mesh](https://github.com/thiagobotelho/service-mesh-gitops/blob/main/docs/OBSERVABILIDADE.md) para correlacionar NetworkPolicy, logs de proxies, mTLS, autorização HTTP e traces, com as fontes de dados corretas.
+
+O perfil desenvolvimento rotula o namespace `observability` com `istio-discovery: mesh-crc` para que o Istiod descubra o Service OTLP. Essa label não injeta proxies no Collector. Se alterar o seletor do mesh, ajuste a label neste overlay.
